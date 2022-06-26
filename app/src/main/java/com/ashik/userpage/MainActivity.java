@@ -2,6 +2,7 @@ package com.ashik.userpage;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -11,32 +12,42 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
 public class MainActivity extends AppCompatActivity {
+
     BottomNavigationView bottomNavigationView;
     HomeFragment homeFragment=new HomeFragment();
-    BookingFragment bookingFragment=new BookingFragment();
-    ProfileFragment profileFragment=new ProfileFragment();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        bottomNavigationView=findViewById(R.id.bottom_nav);
-        getSupportFragmentManager().beginTransaction().replace(R.id.bottomnav,homeFragment).commit();
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        bottomNavigationView = findViewById(R.id.bottom_nav);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container,homeFragment).commit();
+
+        bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Fragment selectedFragment = null;
+
                 switch(item.getItemId()){
                     case R.id.home:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.bottomnav,homeFragment).commit();
-                        return true;
+                        selectedFragment = new HomeFragment();
+                        break;
+
                     case R.id.bookings:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.bottomnav,bookingFragment).commit();
-                        return true;
+                        selectedFragment = new BookingFragment();
+                        break;
+
                     case R.id.profile:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.bottomnav,profileFragment).commit();
-                        return true;
+                        selectedFragment = new ProfileFragment();
+                        break;
                 }
-                return false;
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container,selectedFragment).commit();
+                return true;
             }
         });
     }
