@@ -4,24 +4,29 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.WindowManager;
 
+import com.ashik.userpage.utility.NetworkChangeListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+
+import io.grpc.ManagedChannelProvider;
 
 public class MainActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
-    HomeFragment homeFragment=new HomeFragment();
+    HomeFragment homeFragment = new HomeFragment();
+    NetworkChangeListener networkChangeListener = new NetworkChangeListener();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
 
         bottomNavigationView = findViewById(R.id.bottom_nav);
         getSupportFragmentManager().beginTransaction()
@@ -51,4 +56,19 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    protected void onStart() {
+        IntentFilter filter = new IntentFilter();
+        registerReceiver(networkChangeListener, filter);
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        unregisterReceiver(networkChangeListener);
+        super.onStop();
+    }
 }
+
+

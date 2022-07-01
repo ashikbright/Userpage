@@ -21,16 +21,16 @@ public class adapter extends RecyclerView.Adapter<adapter.myviewholder>{
     @NonNull
     @Override
     public myviewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.singlerow,parent,false);
+        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.user_profile_single_row,parent,false);
         return  new myviewholder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull myviewholder holder, int position) {
-        holder.img.setImageResource(dataholder.get(position).getImage());
-        holder.header.setText(dataholder.get(position).getHeader());
-        holder.nm.setText(dataholder.get(position).getNm());
-        holder.edit.setImageResource(dataholder.get(position).getEdit());
+//        holder.img.setImageResource(dataholder.get(position).getImage());
+//        holder.header.setText(dataholder.get(position).getHeader());
+//        holder.nm.setText(dataholder.get(position).getNm());
+//        holder.edit.setImageResource(dataholder.get(position).getEdit());
     }
 
     @Override
@@ -44,10 +44,10 @@ public class adapter extends RecyclerView.Adapter<adapter.myviewholder>{
         TextView header,nm;
         public myviewholder(@NonNull View itemView) {
             super(itemView);
-            img=itemView.findViewById(R.id.img1);
-            header=itemView.findViewById(R.id.t1);
-            nm=itemView.findViewById(R.id.t2);
-            edit=itemView.findViewById(R.id.editt);
+//            img=itemView.findViewById(R.id.user_icon);
+//            header=itemView.findViewById(R.id.user_txtNameHeading);
+//            nm=itemView.findViewById(R.id.user_txtName);
+//            edit=itemView.findViewById(R.id.editt);
         }
     }
 }
