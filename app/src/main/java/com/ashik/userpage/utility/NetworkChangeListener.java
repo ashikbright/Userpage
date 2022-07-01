@@ -4,40 +4,78 @@ import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.ashik.userpage.R;
 
 public class NetworkChangeListener extends BroadcastReceiver {
 
 
+
     @Override
     public void onReceive(Context context, Intent intent) {
-        if(!Common.isConnectedToInternet(context)){   //internet is not connected
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(context);
-            View layout_dialog = LayoutInflater.from(context).inflate(R.layout.check_internet_dialog, null);
-            builder.setView(layout_dialog);
+        try{
+            if (!isOnline(context)){
+                Toast.makeText(context, "No Internet", Toast.LENGTH_SHORT).show();
 
-            Button btnRetry = layout_dialog.findViewById(R.id.btnRetry);
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
-            //show dialog
-            AlertDialog dialog = builder.create();
-            dialog.show();
-            dialog.setCancelable(false);
-            dialog.getWindow().setGravity(Gravity.CENTER);
+                LayoutInflater inflater = (LayoutInflater)context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
+                View layoutDialogView = inflater.inflate(R.layout.check_internet_dialog, null);
+                Button btnRetry = layoutDialogView.findViewById(R.id.btnRetry);
+                builder.setView(layoutDialogView);
 
-            btnRetry.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dialog.dismiss();
-                    onReceive(context, intent);
-                }
-            });
+                AlertDialog dialog = builder.create();
+                dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_TOAST);
+                dialog.getWindow().setGravity(Gravity.CENTER);
+                dialog.setCancelable(false);
+                dialog.show();
+
+                btnRetry.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                        onReceive(context, intent);
+                    }
+                });
+
+            }
 
         }
+        catch (NullPointerException e){
+            e.printStackTrace();
+        }
+
     }
+
+
+    public boolean isOnline(Context context){
+        try{
+            ConnectivityManager connectivityManager = (ConnectivityManager)
+                    context.getSystemService(context.CONNECTIVITY_SERVICE);
+            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+            return (networkInfo!=null && networkInfo.isConnected());
+        }
+        catch (NullPointerException e){
+            e.printStackTrace();
+            return false;
+        }
+
+    }
+
+    public void showDialog(Context context, Intent intent) {
+
+
+
+
+    }
+
 }

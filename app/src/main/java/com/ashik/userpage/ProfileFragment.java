@@ -42,7 +42,6 @@ public class ProfileFragment extends Fragment {
     private String userID = "";
     private ProgressBar progressBar;
     private String name, phone, email;
-    private String[] data;
 
 
     @Override
@@ -65,6 +64,7 @@ public class ProfileFragment extends Fragment {
         progressBar = view.findViewById(R.id.user_progressBar);
         logout = view.findViewById(R.id.user_btnLogout);
         progressBar.setVisibility(View.VISIBLE);
+        logout.setVisibility(View.GONE);
         mAuth = FirebaseAuth.getInstance();
 
         user = mAuth.getCurrentUser();
@@ -92,6 +92,7 @@ public class ProfileFragment extends Fragment {
                     ListAdapter listAdapter = new ListAdapter(getActivity(), imageIDs, itemNames, data);
                     listView.setAdapter(listAdapter);
                     progressBar.setVisibility(View.GONE);
+                    logout.setVisibility(View.VISIBLE);
                 }
 
             }
@@ -108,6 +109,7 @@ public class ProfileFragment extends Fragment {
                 progressBar.setVisibility(View.VISIBLE);
                 mAuth.signOut();
                 progressBar.setVisibility(View.GONE);
+                logout.setVisibility(View.VISIBLE);
                 Intent intent = new Intent(getActivity(), loginActivity.class);
                 startActivity(intent);
             }
