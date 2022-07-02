@@ -35,4 +35,6 @@
     <string name="phone_number">Phone Number:</string>
     <string name="log_out">Log Out</string>
 
+    <string name="rate_dialog_message">If you enjoy using this app, would you mind taking a moment to rate it? It won\'t take more than a minute. Thanks for your support!</string>
+
 </resources>

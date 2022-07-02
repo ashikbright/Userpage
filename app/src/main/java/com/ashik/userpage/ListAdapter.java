@@ -54,7 +54,6 @@ public class ListAdapter extends BaseAdapter {
         userNameHeading.setText(itemName[position]);
         userName.setText(listItems[position]);
 
-
         return convertView;
     }
 }
