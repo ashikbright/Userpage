@@ -21,7 +21,7 @@ public class ProfileFragment extends Fragment {
     ArrayList<datamodel> dataholder;
     //DatabaseReference database;
     //adapter myadapter;
-
+    //profile page
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

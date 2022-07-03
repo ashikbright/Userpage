@@ -1,10 +1,13 @@
 package com.ashik.userpage;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,6 +16,7 @@ import java.util.ArrayList;
 
 public class adapter extends RecyclerView.Adapter<adapter.myviewholder>{
     ArrayList<datamodel> dataholder;
+    //Context context;
 
     public adapter(ArrayList<datamodel> dataholder) {
         this.dataholder = dataholder;
@@ -31,6 +35,13 @@ public class adapter extends RecyclerView.Adapter<adapter.myviewholder>{
         holder.header.setText(dataholder.get(position).getHeader());
         holder.nm.setText(dataholder.get(position).getNm());
         holder.edit.setImageResource(dataholder.get(position).getEdit());
+
+      /*  holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });*/
     }
 
     @Override
