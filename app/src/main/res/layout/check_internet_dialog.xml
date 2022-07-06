@@ -11,7 +11,7 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         app:tint="@color/colorAccent"
-        android:src="@drawable/ic_baseline_wifi_off_24"
+        android:src="@drawable/wifi_off_icon"
         android:layout_gravity="center"/>
     <TextView
         android:layout_width="match_parent"
