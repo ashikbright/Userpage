@@ -1,4 +1,4 @@
-package com.ashik.userpage;
+package com.ashik.userpage.MyAdapter;
 
 
 import android.content.Context;
@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.ashik.userpage.R;
 
 
 public class ListAdapter extends BaseAdapter {
