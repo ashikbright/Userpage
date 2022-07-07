@@ -34,7 +34,6 @@ public class HomeFragment extends Fragment {
 
         Button btnOrder;
         ImageButton imgBtnLabour, imgBtnMistri, imgBtnTiles, imgBtnPaint, imgBtnFurniture, imgBtnPlumber, imgBtnWelder, imgBtnElectrician;
-        Animation scaleUp, scaleDown;
 
         btnOrder =view.findViewById(R.id.btn_click_here);
         imgBtnLabour=view.findViewById(R.id.imgbtn_labour);
@@ -47,21 +46,7 @@ public class HomeFragment extends Fragment {
         imgBtnElectrician=view.findViewById(R.id.imgbtn_plumber3);
 
 
-        scaleUp = AnimationUtils.loadAnimation(getActivity(), R.anim.scale_up);
-        scaleDown = AnimationUtils.loadAnimation(getActivity(), R.anim.scale_down);
 
-        btnOrder.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if(event.getAction()==MotionEvent.ACTION_UP){
-                    btnOrder.startAnimation(scaleUp);
-
-                }else if(event.getAction()==MotionEvent.ACTION_DOWN){
-                    btnOrder.startAnimation(scaleDown);
-                }
-                return false;
-            }
-        });
 
 
         btnOrder.setOnClickListener(new View.OnClickListener() {
@@ -71,20 +56,9 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        imgBtnLabour.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if(event.getAction()==MotionEvent.ACTION_UP){
-                    imgBtnLabour.startAnimation(scaleUp);
 
-                }else if(event.getAction()==MotionEvent.ACTION_DOWN){
-                    imgBtnLabour.startAnimation(scaleDown);
-                }
-                return false;
-            }
-        });
 
-//        imgBtnLabour.setOnClickListener(v -> confirmOrder(0));
+        imgBtnLabour.setOnClickListener(v -> confirmOrder(0));
 
         imgBtnMistri.setOnClickListener(v -> confirmOrder(1));
 

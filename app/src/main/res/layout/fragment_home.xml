@@ -190,41 +190,43 @@
             <TableLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_margin="10dp"
                 android:background="#ffffff">
 
                 <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+
                     android:gravity="center">
 
                     <ImageButton
                         android:id="@+id/imgbtn_labour"
-                        tools:ignore="SpeakableTextPresentCheck"
                         android:layout_width="141dp"
                         android:layout_height="121dp"
                         android:layout_margin="10dp"
-                        android:padding="10dp"
-                        android:elevation="5dp"
-                        android:background="@drawable/image_layout"
                         android:layout_weight="1"
+                        android:background="@drawable/image_layout"
+                        android:contentDescription="TODO"
+                        android:elevation="5dp"
+                        android:padding="10dp"
                         android:scaleType="centerInside"
                         android:src="@drawable/labour1"
-                        android:contentDescription="TODO" />
+                        tools:ignore="SpeakableTextPresentCheck" />
 
                     <ImageButton
                         android:id="@+id/imgbtn_mistri"
-                        tools:ignore="SpeakableTextPresentCheck"
                         android:layout_width="141dp"
                         android:layout_height="121dp"
                         android:layout_margin="10dp"
-                        android:padding="10dp"
-                        android:elevation="5dp"
-                        android:background="@drawable/image_layout"
                         android:layout_weight="1"
+                        android:background="@drawable/image_layout"
+                        android:contentDescription="@string/todo"
+                        android:elevation="5dp"
+                        android:padding="10dp"
                         android:scaleType="centerInside"
                         android:src="@drawable/mistri1"
-                        android:contentDescription="@string/todo" />
+                        tools:ignore="SpeakableTextPresentCheck" />
 
                 </TableRow>
 
@@ -236,27 +238,27 @@
 
                     <ImageButton
                         android:id="@+id/imgbtn_tiles"
-                        tools:ignore="SpeakableTextPresentCheck"
                         android:layout_width="141dp"
                         android:layout_height="121dp"
                         android:layout_margin="10dp"
-                        android:padding="10dp"
-                        android:elevation="5dp"
-                        android:background="@drawable/image_layout"
                         android:layout_weight="1"
+                        android:background="@drawable/image_layout"
+                        android:elevation="5dp"
+                        android:padding="10dp"
                         android:scaleType="centerInside"
-                        android:src="@drawable/marble1" />
+                        android:src="@drawable/marble1"
+                        tools:ignore="SpeakableTextPresentCheck" />
 
                     <ImageButton
                         android:id="@+id/imgbtn_painter"
                         android:layout_width="141dp"
                         android:layout_height="121dp"
                         android:layout_margin="10dp"
-                        android:padding="10dp"
-                        android:background="@drawable/image_layout"
                         android:layout_weight="1"
-                        android:elevation="5dp"
+                        android:background="@drawable/image_layout"
                         android:contentDescription="TODO"
+                        android:elevation="5dp"
+                        android:padding="10dp"
                         android:scaleType="centerInside"
                         android:src="@drawable/painter1"
                         tools:ignore="SpeakableTextPresentCheck" />
@@ -271,35 +273,37 @@
 
                     <ImageButton
                         android:id="@+id/imgbtn_furniture"
-                        tools:ignore="SpeakableTextPresentCheck"
                         android:layout_width="141dp"
                         android:layout_height="121dp"
                         android:layout_margin="10dp"
-                        android:padding="10dp"
-                        android:background="@drawable/image_layout"
                         android:layout_weight="1"
+                        android:background="@drawable/image_layout"
+                        android:contentDescription="TODO"
                         android:elevation="5dp"
+                        android:padding="10dp"
                         android:scaleType="centerInside"
                         android:src="@drawable/furniture1"
-                        android:contentDescription="TODO" />
+                        tools:ignore="SpeakableTextPresentCheck" />
 
                     <ImageButton
                         android:id="@+id/imgbtn_plumber"
-                        tools:ignore="SpeakableTextPresentCheck"
                         android:layout_width="141dp"
                         android:layout_height="121dp"
                         android:layout_margin="10dp"
-                        android:padding="10dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/image_layout"
                         android:elevation="5dp"
-                        android:background="@drawable/image_layout"                        android:layout_weight="1"
+                        android:padding="10dp"
                         android:scaleType="centerInside"
-                        android:src="@drawable/plumber1" />
+                        android:src="@drawable/plumber1"
+                        tools:ignore="SpeakableTextPresentCheck" />
 
                 </TableRow>
 
                 <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_margin="5dp"
                     android:layout_weight="1"
                     android:gravity="center">
 

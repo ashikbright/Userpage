@@ -24,8 +24,8 @@ public class NetworkChangeListener extends BroadcastReceiver {
 
         try{
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                LayoutInflater inflater = (LayoutInflater)context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
-                View layoutDialogView = inflater.inflate(R.layout.check_internet_dialog, null);
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View layoutDialogView = inflater.inflate(R.layout.check_internet_dialog, null);
                 Button btnRetry = layoutDialogView.findViewById(R.id.btnRetry);
                 builder.setView(layoutDialogView);
 
@@ -63,7 +63,7 @@ public class NetworkChangeListener extends BroadcastReceiver {
     public boolean isOnline(Context context){
         try{
             ConnectivityManager connectivityManager = (ConnectivityManager)
-                    context.getSystemService(context.CONNECTIVITY_SERVICE);
+                    context.getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
             return (networkInfo!=null && networkInfo.isConnected());
         }

@@ -15,12 +15,13 @@ import com.ashik.userpage.R;
 public class ListAdapter extends BaseAdapter {
 
     Context context;
-    String itemName[], listItems[];
-    int imageIDs[];
+    String[] itemName;
+    String[] listItems;
+    int[] imageIDs;
 
     LayoutInflater inflater;
 
-    public ListAdapter(Context context, int[] imageIDs, String[] listNames, String[] listItems ) {
+    public ListAdapter(Context context, int[] imageIDs, String[] listNames, String[] listItems) {
         this.context = context;
         this.itemName = listNames;
         this.listItems = listItems;
