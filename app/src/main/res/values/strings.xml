@@ -45,8 +45,10 @@
 
 
     <string name="book_now">Book Now</string>
-    <string name="confirm_order">Confirm Order></string>
+    <string name="confirm_order">Confirm Order</string>
     <string name="my_bookings">My Bookings</string>
+    <string name="summary_note">Summary Note : Once the Booking is Accepted , Please Discuss and Finalize the Work Requirements and Charges / Amount Directly with the Service Provider .</string>
+
 
     <array name="worker_type">
         <item>Labour</item>

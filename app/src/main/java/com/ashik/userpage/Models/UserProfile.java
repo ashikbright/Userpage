@@ -1,4 +1,4 @@
-package com.ashik.userpage;
+package com.ashik.userpage.Models;
 
 public class UserProfile {
 

@@ -1,19 +1,14 @@
-package com.ashik.userpage;
+package com.ashik.userpage.Models;
 
 public class User {
 
-    public String name, email, phone, isUser;
+    public String UID;
+    public String name;
+    public String email;
+    public String phone;
 
     public User() {
     }
-
-    public User(String name, String email, String phone, String isUser) {
-        this.name = name;
-        this.email = email;
-        this.phone = phone;
-        this.isUser = isUser;
-    }
-
 
     public User(String name, String email, String phone) {
         this.name = name;
@@ -45,13 +40,11 @@ public class User {
         this.phone = phone;
     }
 
-    public String[] GenerateData(String name, String email, String phone){
-        String[] data = {
-                name, email, phone, "", ""
-        };
-
-
-        return data;
+    public String getUserID() {
+        return UID;
     }
 
+    public void setUserID(String UID) {
+        this.UID = UID;
+    }
 }

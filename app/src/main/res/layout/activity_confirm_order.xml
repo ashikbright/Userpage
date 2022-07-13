@@ -121,33 +121,49 @@
             android:padding="10dp"
             android:textColor="#000000" />
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginTop="10dp"
+            android:background="#000000" />
+
 
         <LinearLayout
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:layout_margin="10dp"
-            android:background="@drawable/border"
+            android:layout_margin="5dp"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/textView3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto"
-                android:text="Estimated Price : "
-                android:textSize="18sp"
-                android:padding="10dp"
-                android:textColor="#000000" />
-
-            <TextView
-                android:id="@+id/txtPrice"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="N/A"
-                android:gravity="center"
-                android:padding="10dp"
-                android:textColor="#000000"
-                android:textSize="18sp" />
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="match_parent"
+                    android:gravity="center"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto"
+                    android:text="Payment Summary"
+                    android:textSize="22sp"
+                    android:padding="5dp"
+                    android:textStyle="bold"
+                    android:shadowDx="1"
+                    android:shadowDy="1"
+                    android:shadowRadius="5"
+                    android:textColor="@color/colorPrimary" />
+
+                <TextView
+                    android:id="@+id/txtPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/summary_note"
+                    android:padding="5dp"
+                    android:textColor="#E9000000"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
 
         </LinearLayout>
 

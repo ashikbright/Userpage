@@ -1,4 +1,4 @@
-package com.ashik.userpage.MyAdapter;
+package com.ashik.userpage.ViewHolder;
 
 
 import android.content.Context;

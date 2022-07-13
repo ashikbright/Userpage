@@ -18,6 +18,8 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.ashik.userpage.Common.Common;
+import com.ashik.userpage.Models.User;
 import com.ashik.userpage.utility.NetworkChangeListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
@@ -41,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private DatabaseReference reference;
     private String userID = "";
     private String name, phone, email;
+    private User userData;
 
 
     @Override
@@ -95,12 +98,14 @@ public class MainActivity extends AppCompatActivity {
             reference.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    User userData = snapshot.getValue(User.class);
+                    userData = snapshot.getValue(User.class);
 
-                    if (userData != null){
+                    if (userData != null) {
                         name = userData.name;
                         phone = userData.phone;
                         email = userData.email;
+                        Common.CurrentUser = userData;
+                        Common.CurrentUser.setUserID(userID);
 
                         SharedPreferences.Editor editor = getSharedPreferences("userInfo", MODE_PRIVATE).edit();
                         editor.putString("name", name);
