@@ -5,17 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.text.Layout;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.WindowManager;
-import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.ashik.userpage.Common.Common;
@@ -30,10 +23,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
-import io.grpc.ManagedChannelProvider;
-
-public class MainActivity extends AppCompatActivity {
+public class UserActivity extends AppCompatActivity {
 
     private BottomNavigationView bottomNavigationView;
     private HomeFragment homeFragment;
@@ -44,26 +37,32 @@ public class MainActivity extends AppCompatActivity {
     private String userID = "";
     private String name, phone, email;
     private User userData;
+    private FirebaseStorage storage;
+    private StorageReference storageReference;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_user);
 
         broadcastReceiver = new NetworkChangeListener();
         homeFragment = new HomeFragment();
+        storage = FirebaseStorage.getInstance();
 
         bottomNavigationView = findViewById(R.id.bottom_nav);
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container,homeFragment).commit();
+                .replace(R.id.fragment_container, homeFragment).commit();
+
+        storageReference = storage.getReference().child("Profile_Pictures")
+                .child(FirebaseAuth.getInstance().getUid());
 
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 Fragment selectedFragment = null;
 
-                switch(item.getItemId()){
+                switch (item.getItemId()) {
                     case R.id.home:
                         selectedFragment = new HomeFragment();
                         break;
@@ -77,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                 }
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container,selectedFragment).commit();
+                        .replace(R.id.fragment_container, selectedFragment).commit();
                 return true;
             }
         });
@@ -86,43 +85,45 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
     private void saveData() {
 
-            mAuth = FirebaseAuth.getInstance();
-            user = mAuth.getCurrentUser();
-            reference = FirebaseDatabase.getInstance().getReference("Users");
-            if (user != null){
-                userID = user.getUid();
+        mAuth = FirebaseAuth.getInstance();
+        user = mAuth.getCurrentUser();
+        reference = FirebaseDatabase.getInstance().getReference("Users");
+        if (user != null) {
+            userID = user.getUid();
+        }
+
+        reference.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                userData = snapshot.getValue(User.class);
+
+                if (userData != null) {
+                    name = userData.name;
+                    phone = userData.phone;
+                    email = userData.email;
+                    Common.CurrentUser = userData;
+                    Common.CurrentUser.setUserID(userID);
+
+                    SharedPreferences.Editor editor = getSharedPreferences("userInfo", MODE_PRIVATE).edit();
+                    editor.putString("name", name);
+                    editor.putString("phone", phone);
+                    editor.putString("email", email);
+                    editor.apply();
+                }
+
             }
 
-            reference.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    userData = snapshot.getValue(User.class);
-
-                    if (userData != null) {
-                        name = userData.name;
-                        phone = userData.phone;
-                        email = userData.email;
-                        Common.CurrentUser = userData;
-                        Common.CurrentUser.setUserID(userID);
-
-                        SharedPreferences.Editor editor = getSharedPreferences("userInfo", MODE_PRIVATE).edit();
-                        editor.putString("name", name);
-                        editor.putString("phone", phone);
-                        editor.putString("email", email);
-                        editor.apply();
-                    }
-
-                }
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-                    Toast.makeText(getApplicationContext(), "Something went wrong!", Toast.LENGTH_SHORT).show();
-                }
-            });
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getApplicationContext(), "Something went wrong!", Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
-        }
+    }
 
 
     @Override
@@ -130,8 +131,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             IntentFilter filter = new IntentFilter();
             registerReceiver(broadcastReceiver, filter);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         super.onStart();
@@ -142,13 +142,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onStop() {
         try {
             unregisterReceiver(broadcastReceiver);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         super.onStop();
     }
-
 
 
 }

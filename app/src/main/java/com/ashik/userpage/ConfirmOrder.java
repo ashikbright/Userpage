@@ -36,7 +36,7 @@ public class ConfirmOrder extends AppCompatActivity {
     FirebaseDatabase database;
     DatabaseReference orderReference;
     DatabaseReference requestReference;
-    public static int counter = 0;
+    public int counter = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,10 +69,9 @@ public class ConfirmOrder extends AppCompatActivity {
         spinner.setSelection(selectedItem);
 
 
-        orderReference.child("orderRequests").addValueEventListener(new ValueEventListener() {
+        orderReference.child("orderRequests").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-
                 if (snapshot.exists()) {
                     Log.d("ColumnExist", "column found");
                     int count = (int) snapshot.getChildrenCount();
@@ -83,7 +82,6 @@ public class ConfirmOrder extends AppCompatActivity {
                     }
                     Log.d("ColumnExist", "count : " + count);
                 }
-
             }
 
             @Override
@@ -119,22 +117,41 @@ public class ConfirmOrder extends AppCompatActivity {
 
 
         if (totalWorkers.isEmpty()) {
-            editTotalWorkers.setError("required!");
+            editTotalWorkers.setError("Required!");
+            editTotalWorkers.requestFocus();
+            return false;
+        }
+
+        if (Integer.parseInt(totalWorkers) > 20) {
+            editTotalWorkers.setError("Not more than 20 workers!");
             editTotalWorkers.requestFocus();
             return false;
         }
 
         if (totalDays.isEmpty()) {
-            editNoDays.setError("required!");
+            editNoDays.setError("Required!");
+            editNoDays.requestFocus();
+            return false;
+        }
+
+        if (Integer.parseInt(totalDays) > 30) {
+            editNoDays.setError("Maximum limit is 30 days!");
             editNoDays.requestFocus();
             return false;
         }
 
         if (address.isEmpty()) {
-            editLocation.setError("required!");
+            editLocation.setError("Required!");
             editLocation.requestFocus();
             return false;
         }
+
+        if (address.length() >= 5) {
+            editLocation.setError("Please enter valid address");
+            editLocation.requestFocus();
+            return false;
+        }
+
 
         User request = new User(
                 Common.CurrentUser.getName(),

@@ -69,6 +69,7 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.OrderV
 
         Log.d("statusCheck", "conditions not met , status is: " + st);
         return st;
+
     }
 
     @Override

@@ -2,11 +2,9 @@ package com.ashik.userpage;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -96,7 +94,7 @@ public class loginActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                 if(snapshot.child("isAdmin").exists()) {
-                    Intent intent = new Intent(loginActivity.this, MainActivity.class);
+                    Intent intent = new Intent(loginActivity.this, UserActivity.class);
                     startActivity(intent);
                     Toast.makeText(loginActivity.this, "ADMIN", Toast.LENGTH_SHORT).show();
                     progressBar.setVisibility(View.GONE);
@@ -104,7 +102,7 @@ public class loginActivity extends AppCompatActivity {
                 }
 
                 else if (snapshot.child("isWorker").exists()){
-                    Intent intent = new Intent(loginActivity.this, MainActivity.class);
+                    Intent intent = new Intent(loginActivity.this, UserActivity.class);
                     startActivity(intent);
                     progressBar.setVisibility(View.GONE);
                     Toast.makeText(loginActivity.this, "Worker", Toast.LENGTH_SHORT).show();
@@ -112,7 +110,7 @@ public class loginActivity extends AppCompatActivity {
                 }
 
                 else if (snapshot.child("isUser").exists()){
-                    Intent intent = new Intent(loginActivity.this, MainActivity.class);
+                    Intent intent = new Intent(loginActivity.this, UserActivity.class);
                     startActivity(intent);
                     progressBar.setVisibility(View.GONE);
                     Toast.makeText(loginActivity.this, "USER", Toast.LENGTH_SHORT).show();

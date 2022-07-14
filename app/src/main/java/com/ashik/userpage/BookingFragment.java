@@ -1,6 +1,8 @@
 package com.ashik.userpage;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.ashik.userpage.Common.Common;
 import com.ashik.userpage.Models.Order;
 import com.ashik.userpage.ViewHolder.recyclerAdapter;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -53,36 +56,42 @@ public class BookingFragment extends Fragment {
         recyclerView.setAdapter(myAdapter);
 
 
-        String userID = Common.CurrentUser.getUserID();
+        ProgressDialog dialog = new ProgressDialog(getActivity());
+        dialog.setTitle("Please Wait");
+        dialog.setMessage("Loading...");
+        dialog.show();
 
-        order.child(userID).child("orderRequests").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
+        String userID = FirebaseAuth.getInstance().getUid();
 
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    Order myOrder = dataSnapshot.getValue(Order.class);
+        if (userID != null) {
 
-                    orderList.add(myOrder);
+            order.child(userID).child("orderRequests").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        Order myOrder = dataSnapshot.getValue(Order.class);
+                        orderList.add(myOrder);
+                    }
+
+                    sortOrders();
+                    myAdapter.notifyDataSetChanged();
+                    Log.d("orderData", "data received successfully");
+
                 }
 
-                for (Order list : orderList) {
-                    Log.d("orderData", " \n" + list.getOrderId() + "\n");
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Log.d("orderData", "data failed");
                 }
+            });
 
-                sortOrders();
+        } else {
+            Log.d("userId", "user ID is null");
+        }
 
-                myAdapter.notifyDataSetChanged();
-                Log.d("orderData", "data received successfully");
-
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.d("orderData", "data failed");
-            }
-        });
-
+        Handler handler = new Handler();
+        handler.postDelayed(dialog::dismiss, 300);
 
         return view;
     }
