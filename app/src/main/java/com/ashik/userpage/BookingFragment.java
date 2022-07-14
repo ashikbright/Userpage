@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.ashik.userpage.Common.Common;
 import com.ashik.userpage.Models.Order;
 import com.ashik.userpage.ViewHolder.recyclerAdapter;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -22,7 +21,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 
 
 public class BookingFragment extends Fragment {
@@ -31,7 +31,7 @@ public class BookingFragment extends Fragment {
     FirebaseDatabase database;
     DatabaseReference order;
     recyclerAdapter myAdapter;
-    ArrayList<Order> listOrder;
+    ArrayList<Order> orderList;
 
 
     @Override
@@ -48,25 +48,32 @@ public class BookingFragment extends Fragment {
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
 
-        listOrder = new ArrayList<>();
-        myAdapter = new recyclerAdapter(getActivity(), listOrder);
+        orderList = new ArrayList<>();
+        myAdapter = new recyclerAdapter(getActivity(), orderList);
         recyclerView.setAdapter(myAdapter);
 
 
         String userID = Common.CurrentUser.getUserID();
 
-        order.child(userID).addValueEventListener(new ValueEventListener() {
+        order.child(userID).child("orderRequests").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     Order myOrder = dataSnapshot.getValue(Order.class);
-                    String id = myOrder.getOrderId();
-                    listOrder.add(myOrder);
+
+                    orderList.add(myOrder);
                 }
+
+                for (Order list : orderList) {
+                    Log.d("orderData", " \n" + list.getOrderId() + "\n");
+                }
+
+                sortOrders();
 
                 myAdapter.notifyDataSetChanged();
                 Log.d("orderData", "data received successfully");
+
 
             }
 
@@ -77,17 +84,18 @@ public class BookingFragment extends Fragment {
         });
 
 
-
-//        recyclerView=view.findViewById(R.id.recycler);
-//        recyclerView.setLayoutManager((new LinearLayoutManager(getContext())));
-//        dataholder=new ArrayList<>();
-//        datamodel ob1=new datamodel(R.drawable.empty,"Construction Workers","",R.drawable.empty);
-//        dataholder.add(ob1);
-//        datamodel ob2=new datamodel(R.drawable.empty,"Mistri","",R.drawable.empty);
-//        dataholder.add(ob2);
-
-//        recyclerView.setAdapter(new adapter(dataholder));
         return view;
+    }
+
+    private void sortOrders() {
+        Collections.sort(orderList, new Comparator<Order>() {
+            @Override
+            public int compare(Order o1, Order o2) {
+                return o1.getOrderId().compareToIgnoreCase(o2.getOrderId());
+            }
+        });
+
+        Collections.reverse(orderList);
     }
 
 

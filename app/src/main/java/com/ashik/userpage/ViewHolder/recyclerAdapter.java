@@ -16,6 +16,8 @@ import com.ashik.userpage.Models.Order;
 import com.ashik.userpage.R;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.OrderViewHolder> {
 
@@ -50,6 +52,7 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.OrderV
 
     }
 
+
     private String checkStatus(String status_code) {
 
         String st = "N/A";
@@ -70,40 +73,11 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.OrderV
 
     @Override
     public int getItemCount() {
-        if (orderList.size() == 0 || orderList.size() == 1) {
-            return 0;
-        } else {
-            return orderList.size() - 1;
-        }
+        return orderList.size();
     }
 
-//
-//    public TextView txtOderID, txtWorkerType, txtDate, txtStatus;
-//    private ItemClickListener itemClickListener;
-//
-//    public OrderViewHolder(@NonNull View itemView) {
-//        super(itemView);
-//
-//        txtOderID = itemView.findViewById(R.id.order_id);
-//        txtWorkerType = itemView.findViewById(R.id.oder_type);
-//        txtDate= itemView.findViewById(R.id.order_date);
-//        txtStatus = itemView.findViewById(R.id.order_status);
-//
-//        itemView.setOnClickListener(this);
-//
-//    }
-//
-//    public void setItemClickListener(ItemClickListener itemClickListener) {
-//        this.itemClickListener = itemClickListener;
-//    }
-//
-//    @Override
-//    public void onClick(View v) {
-//            itemClickListener.onClick(v, getAdapterPosition(), false);
-//    }
 
-
-    public static class OrderViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public static class OrderViewHolder extends RecyclerView.ViewHolder {
 
         public TextView txtOderID, txtWorkerType, txtDate, txtStatus, txtLocation;
 
@@ -115,11 +89,6 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.OrderV
             txtDate = itemView.findViewById(R.id.order_date);
             txtStatus = itemView.findViewById(R.id.order_status);
             txtLocation = itemView.findViewById(R.id.order_place);
-
-        }
-
-        @Override
-        public void onClick(View v) {
 
         }
     }

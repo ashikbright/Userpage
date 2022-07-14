@@ -15,7 +15,7 @@ import android.widget.Toast;
 
 import com.ashik.userpage.Common.Common;
 import com.ashik.userpage.Models.Order;
-import com.ashik.userpage.Models.Request;
+import com.ashik.userpage.Models.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -36,7 +36,7 @@ public class ConfirmOrder extends AppCompatActivity {
     FirebaseDatabase database;
     DatabaseReference orderReference;
     DatabaseReference requestReference;
-    public static int counter = 1;
+    public static int counter = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,15 +69,21 @@ public class ConfirmOrder extends AppCompatActivity {
         spinner.setSelection(selectedItem);
 
 
-        orderReference.addListenerForSingleValueEvent(new ValueEventListener() {
+        orderReference.child("orderRequests").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+
                 if (snapshot.exists()) {
                     Log.d("ColumnExist", "column found");
-                } else {
-                    Log.d("ColumnExist", "column not found");
-                    counter = 1;
+                    int count = (int) snapshot.getChildrenCount();
+                    if (count == 0) {
+                        counter = 1;
+                    } else {
+                        counter = count + 1;
+                    }
+                    Log.d("ColumnExist", "count : " + count);
                 }
+
             }
 
             @Override
@@ -89,8 +95,8 @@ public class ConfirmOrder extends AppCompatActivity {
         placeOrderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int res = checkoutData();
-                if (res == 1) {
+                Boolean res = checkoutData();
+                if (res) {
                     editTotalWorkers.getText().clear();
                     editNoDays.getText().clear();
                     editLocation.getText().clear();
@@ -102,7 +108,7 @@ public class ConfirmOrder extends AppCompatActivity {
     }
 
 
-    private int checkoutData() {
+    private Boolean checkoutData() {
 
         String worker_type = spinner.getSelectedItem().toString();
         String totalWorkers = editTotalWorkers.getText().toString();
@@ -115,26 +121,25 @@ public class ConfirmOrder extends AppCompatActivity {
         if (totalWorkers.isEmpty()) {
             editTotalWorkers.setError("required!");
             editTotalWorkers.requestFocus();
-            return 0;
+            return false;
         }
 
         if (totalDays.isEmpty()) {
             editNoDays.setError("required!");
             editNoDays.requestFocus();
-            return 0;
+            return false;
         }
 
         if (address.isEmpty()) {
             editLocation.setError("required!");
             editLocation.requestFocus();
-            return 0;
+            return false;
         }
 
-        Request request = new Request(
-                Common.CurrentUser.getUserID(),
+        User request = new User(
                 Common.CurrentUser.getName(),
-                Common.CurrentUser.getPhone(),
-                Common.CurrentUser.getEmail()
+                Common.CurrentUser.getEmail(),
+                Common.CurrentUser.getPhone()
         );
 
 
@@ -149,17 +154,15 @@ public class ConfirmOrder extends AppCompatActivity {
 
         orderReference.child("userInfo").setValue(request);
 
-        DatabaseReference currentOrder = orderReference.child(String.valueOf(counter));
-        counter++;
+        DatabaseReference currentOrder = orderReference.child("orderRequests").child(String.valueOf(counter));
         currentOrder.setValue(workInfo);
 
 
-//        new Database(getBaseContext()).cleanCart();
         Toast.makeText(this, "Thank you order placed.", Toast.LENGTH_SHORT).show();
         finish();
 
 
-        return 1;
+        return true;
     }
 
     private String getDate() {
