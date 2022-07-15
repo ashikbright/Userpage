@@ -1,10 +1,8 @@
 package com.ashik.userpage;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -13,9 +11,14 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.ashik.userpage.Common.Common;
+import com.ashik.userpage.Common.InputFilterMinMax;
 import com.ashik.userpage.Models.Order;
 import com.ashik.userpage.Models.User;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -52,7 +55,7 @@ public class ConfirmOrder extends AppCompatActivity {
 
         database = FirebaseDatabase.getInstance();
         requestReference = database.getReference().child("Orders");
-        orderReference = requestReference.child(Common.CurrentUser.getUserID());
+        orderReference = requestReference.child(FirebaseAuth.getInstance().getUid());
 
         String[] workerType = getResources().getStringArray(R.array.worker_type);
 
@@ -128,6 +131,8 @@ public class ConfirmOrder extends AppCompatActivity {
             return false;
         }
 
+        editLocation.setFilters(new InputFilter[]{new InputFilterMinMax("1", "30")});
+
         if (totalDays.isEmpty()) {
             editNoDays.setError("Required!");
             editNoDays.requestFocus();
@@ -140,17 +145,15 @@ public class ConfirmOrder extends AppCompatActivity {
             return false;
         }
 
+        editLocation.setFilters(new InputFilter[]{new InputFilterMinMax("1", "50")});
+
         if (address.isEmpty()) {
             editLocation.setError("Required!");
             editLocation.requestFocus();
             return false;
         }
 
-        if (address.length() >= 5) {
-            editLocation.setError("Please enter valid address");
-            editLocation.requestFocus();
-            return false;
-        }
+        editLocation.setFilters(new InputFilter[]{new InputFilterMinMax("5", "50")});
 
 
         User request = new User(
